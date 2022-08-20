@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Processing loop
+while true
+do
+  # Create temp file to store response headers
+  HEADERS="$(mktemp)"
+
+  # Get the next event (request will be blocked until one is available)
+  EVENT_DATA=$(curl -sS -LD "$HEADERS" -X GET "http://${AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/next")
+
+  # Extract request ID by scraping response headers received above
+  REQUEST_ID=$(grep -Fi Lambda-Runtime-Aws-Request-Id "$HEADERS" | tr -d '[:space:]' | cut -d: -f2)
+
+  # Execute the PHP script and capture it's output (including any messages sent to stderr)
+  RESPONSE=$(/var/lang/bin/php $LAMBDA_TASK_ROOT/$_HANDLER.php "$EVENT_DATA" 2>&1)
+
+  # check the exit code for errors
+  status=$?
+  if test $status -gt 0
+  then
+    # Send the error to the Runtime API
+    ERROR="{\"errorMessage\": \"$RESPONSE\", \"errorType\": \"InvalidEventDataException\"}"
+    curl -X POST "http://${AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/$REQUEST_ID/error" -d "$ERROR" --header "Lambda-Runtime-Function-Error-Type: Unhandled"
+  else
+    # Send the response to the Runtime API
+    curl -X POST "http://${AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/$REQUEST_ID/response" -d "$RESPONSE"
+  fi
+done

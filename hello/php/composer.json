@@ -1,0 +1,17 @@
+{
+  "name": "danielcraigie/my-first-php-aws-lambda-container",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Daniel Craigie",
+      "email": "danielcraigie@me.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {"LambdaApp\\": "src"}
+  },
+  "require": {
+  }
+}

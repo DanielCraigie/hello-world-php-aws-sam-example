@@ -1,0 +1,39 @@
+Transform: AWS::Serverless-2016-10-31
+
+Description: PHP Hello World AWS SAM Example
+
+Resources:
+    HelloFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Architectures:
+                - arm64
+            Description: PHP Hello function
+            Events:
+                Hello:
+                    Type: Api
+                    Properties:
+                        Method: get
+                        Path: /
+            PackageType: Image
+        Metadata:
+            DockerTag: hello
+            DockerContext: ./hello
+            Dockerfile: Dockerfile
+    GoodbyeFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Architectures:
+                - arm64
+            Description: PHP Goodbye function
+            Events:
+                HelloWorld:
+                    Type: Api
+                    Properties:
+                        Method: get
+                        Path: /goodbye
+            PackageType: Image
+        Metadata:
+            DockerTag: goodbye
+            DockerContext: ./goodbye
+            Dockerfile: Dockerfile

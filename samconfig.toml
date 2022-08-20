@@ -1,0 +1,4 @@
+version=0.1
+[default.global.parameters]
+stack_name = "HelloGoodbye"
+region = "eu-west-2"
