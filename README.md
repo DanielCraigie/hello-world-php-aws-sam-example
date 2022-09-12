@@ -10,7 +10,7 @@ In this project we make a couple of PHP Lambda Functions and structure them behi
 
 PHP Functions will be defined as a Docker Images and made available as methods in a RESTful API. 
 
-The AWS SAM will be used to do all the heavy lifting in AWS.  SAM takes much of the complexity out of building, testing, deploying & managing a Serverless Application in AWS.  To put it simply, you give it a ([CloudFormation](https://aws.amazon.com/cloudformation/) like) specification along with the Application code and it does all the hard work for you.
+The AWS Serverless Application Model will be used to do all the heavy lifting in AWS.  SAM takes much of the complexity out of building, testing, deploying & managing a Serverless Application in AWS.  To put it simply, you give it a ([CloudFormation](https://aws.amazon.com/cloudformation/) like) specification along with the Application code and it does all the hard work for you.
 
 ## Project Structure
 
